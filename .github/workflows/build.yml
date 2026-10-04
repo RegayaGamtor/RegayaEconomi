@@ -1,24 +1,14 @@
-   name: Build WoodcutterJob
+  - uses: actions/setup-java@v4
+    with:
+      distribution: 'temurin'
+      java-version: '21'
+      cache: maven
 
-   on:
-     push:
-     workflow_dispatch:
+  - name: Build with Maven
+    run: mvn -B clean package
 
-   jobs:
-     build:
-       runs-on: ubuntu-latest
-       steps:
-         - uses: actions/checkout@v4
-         - uses: actions/setup-java@v4
-           with:
-             distribution: temurin
-             java-version: '21'
-             cache: maven
-         - name: Build
-           working-directory: src/main/java/com/regayagamtor/woodcutterjob
-           run: mvn -B clean package
-         - name: Upload JAR
-           uses: actions/upload-artifact@v4
-           with:
-             name: WoodcutterJob-jar
-             path: WoodcutterJobX/WoodcutterJob/target/WoodcutterJob-1.2.0.jar
+  - name: Upload JAR
+    uses: actions/upload-artifact@v4
+    with:
+      name: WoodcutterJob-jar
+      path: target/*.jar
